@@ -2,18 +2,69 @@ Freshworks – Backend Assignment
 
 Build a file-based key-value data store that supports the basic CRD (create, read, and delete) operations. This data store is meant to be used as a local storage for one single process on one laptop. The data store must be exposed as a library to clients that can instantiate a class and work with the data store.
 
-The data store will support the following functional requirements.
+-----------------------------------------------------------------------------------------------------
+                            GUIDELINE
+---------------------------------------------------------------------------------------------  
+------------------------------------------------------------------------------------------------
+-------------------------------db_folder--------------------------------------------------------
+this  folder  consist of the data which i was working on "Fresh_db.dat".                        
+------------------------------------------------------------------------------------------------
+------------------------fresh_db.dat------------------------------------------------------------
+keyId=// the value can be anything (ex:1234456dfahd,thilak) but the keyID is capped within 32 char
+value={
+        //it wil be in a json object, the Json Object  is not imported from any lib. hence the value in json object must be key-value  base.
+....    // the  Json Object is created , a key and value input must given. 
+        }
+please check pic_of_op for any clarification.
+--------------------------------------------------------------------------------------------------
+--------------------------------How to consume the DataStore library?-----------------------------                                    
+ Inorder to consume my lib, please download the jar which i  have uploaded in the name of Datastore.jar
+add this jar file to your IDE engine (Path:"lib/dependencies/+key/add more jar file").             
 
-It can be initialized using an optional file path. If one is not provided, it will reliably create itself in a reasonable location on the laptop.
-A new key-value pair can be added to the data store using the Create operation. The key is always a string - capped at 32chars. The value is always a JSON object - capped at 16KB.
-If Create is invoked for an existing key, an appropriate error must be returned.
-A Read operation on a key can be performed by providing the key, and receiving the value in response, as a JSON object.
-A Delete operation can be performed by providing the key.
-Every key supports setting a Time-To-Live property when it is created. This property is optional. If provided, it will be evaluated as an integer defining the number of seconds the key must be retained in the data store. Once the Time-To-Live for a key has expired, the key will no longer be available for Read or Delete operations.
-Appropriate error responses must always be returned to a client if it uses the data store in unexpected ways or breaches any limits.
-The data store will also support the following non-functional requirements.
+EX:                                                                                                               
+import crdoperation.Database;                                                                 
+import crdoperation.Json;
+import crdoperation.Operation;                                                                    
 
-1).The size of the file storing data must never exceed 1GB.
-2).More than one client process cannot be allowed to use the same file as a data store at any given time.
-3).A client process is allowed to access the data store using multiple threads, if it desires to. The data store must therefore be thread-safe.
-4).The client will bear as little memory costs as possible to use this data store, while deriving maximum performance with respect to response times for accessing the data store.
+import java.io.File;                                                                                   
+
+public class Main {                                                                           
+    public static void main(String[] args) throws Exception {                                    
+        //if you have create a file.txt .before entering the data.                             
+        String Path="A:\\freshworks_datastore\\fresh_db.dat";                             
+        Database db=new Database(Path);                                                                        
+        // you can you  use read method to read the data from file to db.                                     
+        db.readData(new File(Path));                                                                                                
+        //this Path  were a file wil be created wil be the  until end.                                                          
+        //didn't create an empty constructor.                                                                                 
+        Operation n=new Operation();                                                           
+        //Operation object must be created to CRD(create,read,delete) operation.                           
+        //db=n.create(db);                                                                   
+        //for create method,                                                                                                                                                  
+             //an Database object must be given                                              
+             // create method  returns Database object                                                    
+        //db.get("thilak");                                                                                
+        n.read(db);                                                                                         
+        //for read method,                                                                                    
+              // an Database object must be given                                                                         
+              // no return statement;                                                                                    
+              //this method wil automatically  print if the key exist or throw error.                             
+       //  db=n.delete(db);                                                                                   
+         //for delete method,                                                                                             
+                 //an Database object must be given                                                                      
+                  // create method  returns Database object                                                                               
+        //--------------------- note------------------------------                                                     
+        // each method  wil be called through  creating the object for Operation and invoking the method.
+        //once operation  method  called, according  to the need the data must be given by the user.
+        // pic_of_op folder has some screenshot of the input and output.                                       
+        //-------------------------------------------------------------------
+                                                                                                                             
+    }
+}
+--------------------------------------------------------------------------------------------------------------
+-------------------------------pic_of_op-----------------------------------------------------------------
+this folder wil consist of the output which was taken in my  console(intellij idea).
+-----------------------------------------------------------------------------------------------------
+------------------------------src--------------------------------------------------------------------
+this folder consist  of all my code which can be downloaded or can be executed ............
+----------------------------------------------------------------------------------------------------
